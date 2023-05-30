@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Problema del Ebrio</title>
+    <style>
+      main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      main > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      h1 {
+        text-transform: uppercase;
+      }
+
+      label {
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+      }
+
+      input {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid #000;
+        font-size: 1rem;
+      }
+
+      button {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        border: none;
+        background-color: #000;
+        color: #fff;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+
+      span {
+        text-align: center;
+        font-size: 0.75rem;
+        font-style: italic;
+        color: #aaa;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div>
+        <h1>Problema del Ebrio</h1>
+        <label for="numSimulates">Número de simulaciones (te recomiendo el por defecto)</label>
+        <input type="number" id="numSimulates" min="1" step="1" placeholder="Por defecto: 1.000.000" />
+        <button onclick="simulate()">Iniciar simulaciones</button>
+        <p id="result">Aun no haz realizado las simulaciones</p>
+        <span>
+          Simulación de Sistemas N1113 <br />
+          Profesor Luis Fernandez <br />
+          Realizado por: Larry Finol 30.770.477
+        </span>
+      </div>
+    </main>
+
+    <script>
+      const travel = () => {
+        // Ubicación inicial del ebrio
+        const startPosition = [0, 0];
+
+        // Hacer que el ebrio camine 10 calles
+        for (let i = 0; i < 10; i++) {
+          // Generar un número aleatorio entre 0 y 3
+          const random = Math.floor(Math.random() * 4);
+
+          // Mover al ebrio en la dirección aleatoria
+          switch (random) {
+            case 0:
+              // Este
+              startPosition[0]++;
+              break;
+            case 1:
+              // Oeste
+              startPosition[0]--;
+              break;
+            case 2:
+              // Norte
+              startPosition[1]++;
+              break;
+            case 3:
+              // Sur
+              startPosition[1]--;
+              break;
+          }
+        }
+
+        // Comprobar si el ebrio termino su recorrido a dos calles de donde empezó
+        const result = Math.abs(startPosition[0]) + Math.abs(startPosition[1]);
+        return result === 2;
+      };
+
+      const simulate = () => {
+        // Número de simulaciones
+        let numSimulations = document.getElementById('numSimulates').value;
+        numSimulations = numSimulations > 0 ? numSimulations : 1000000;
+
+        // Número de éxitos
+        let success = 0;
+
+        // Realizar las simulaciones
+        for (let i = 0; i < numSimulations; i++) {
+          if (travel()) {
+            success++;
+          }
+        }
+
+        // Calcular la probabilidad
+        const probability = success / numSimulations;
+
+        // Convertir la probabilidad a porcentaje y redondear a 2 decimales
+        const percentage = (probability * 100).toFixed(2);
+
+        // Mostrar la probabilidad
+        document.getElementById('result').innerHTML = `La probabilidad es del: ${percentage}%`;
+      };
+    </script>
+  </body>
+</html>
